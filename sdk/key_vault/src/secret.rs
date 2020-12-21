@@ -129,10 +129,7 @@ impl<'a, T: TokenCredential> KeyVaultClient<'a, T> {
     ///
     /// Runtime::new().unwrap().block_on(example());
     /// ```
-    pub async fn get_secret(
-        &mut self,
-        secret_name: &'a str,
-    ) -> Result<KeyVaultSecret, KeyVaultError> {
+    pub async fn get_secret(&mut self, secret_name: &str) -> Result<KeyVaultSecret, KeyVaultError> {
         Ok(self.get_secret_with_version(secret_name, "").await?)
     }
 
@@ -160,8 +157,8 @@ impl<'a, T: TokenCredential> KeyVaultClient<'a, T> {
     /// ```
     pub async fn get_secret_with_version(
         &mut self,
-        secret_name: &'a str,
-        secret_version_name: &'a str,
+        secret_name: &str,
+        secret_version_name: &str,
     ) -> Result<KeyVaultSecret, KeyVaultError> {
         let uri = Url::parse_with_params(
             &format!(
@@ -218,7 +215,6 @@ impl<'a, T: TokenCredential> KeyVaultClient<'a, T> {
         loop {
             let resp_body = self.get_authed(uri.to_string()).await?;
             let response = serde_json::from_str::<KeyVaultGetSecretsResponse>(&resp_body).unwrap();
-
             secrets.extend(
                 response
                     .value

@@ -36,6 +36,7 @@ struct CliTokenResponse {
 }
 
 /// Enables authentication to Azure Active Directory using Azure CLI to obtain an access token.
+#[derive(Debug, Clone)]
 pub struct AzureCliCredential;
 
 impl AzureCliCredential {

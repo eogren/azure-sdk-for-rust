@@ -16,7 +16,7 @@ pub(crate) const API_VERSION: &str = "7.0";
 /// let creds = DefaultCredential::default();
 /// let client = KeyVaultClient::new(&creds, &"test-key-vault");
 /// ```
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct KeyVaultClient<'a, T> {
     pub(crate) token_credential: &'a T,
     pub(crate) keyvault_name: &'a str,
@@ -76,10 +76,10 @@ impl<'a, T: TokenCredential> KeyVaultClient<'a, T> {
             return Ok(());
         }
 
-        let mut resource = format!("https://{}", &self.endpoint_suffix);
-        if !self.endpoint_suffix.ends_with("/") {
-            resource.push_str("/");
-        }
+        let resource = format!("https://{}", &self.endpoint_suffix);
+        //if !self.endpoint_suffix.ends_with("/") {
+        //    resource.push_str("/");
+        //}
 
         let token = self
             .token_credential
